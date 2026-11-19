@@ -50,6 +50,7 @@ QuickCache communicates over raw TCP sockets rather than HTTP. Commands are plai
 | :--- | :--- | :--- | :--- |
 | **SET** | `SET <key> <value>` | Stores a value under the specified key. | `OK: name set to Alice` |
 | **GET** | `GET <key>` | Retrieves the value for the specified key. | `name: Alice` or `name: Key not found` |
+| **DEL** | `DEL <key>` | Delete the entry based upon the key in the cache. | `OK: name Deleted` |
 
 ### Testing with Netcat (`nc`)
 
