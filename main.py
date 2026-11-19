@@ -2,6 +2,9 @@ import asyncio
 
 store = {}
 
+async def get_key_value(key):
+    return store.get(key, "Key not found")
+
 async def handle_client(reader, writer):
     addr = writer.get_extra_info('peername')
     print(f"Connection from {addr}")
@@ -28,7 +31,7 @@ async def handle_client(reader, writer):
                 response = f"OK: {key} set to {value}\n"
             elif command == "GET" and len(args) == 1:
                 key = args[0]
-                value = store.get(key, "Key not found")
+                value = await get_key_value(key)
                 response = f"{key}: {value}\n"
             elif command == "DEL" and len(args) == 1:
                 key = args[0]
@@ -37,8 +40,12 @@ async def handle_client(reader, writer):
                     response = f"OK: {key} deleted\n"
                 else:
                     response = f"ERROR: {key} not found\n"
+            elif command == "LIST" and len(args) == 0:
+                response = "Keys:\n"
+                for key, value in store.items():
+                    response += f"{key}: {value}\n"
             else:
-                response = "ERROR: Use 'SET <key> <value>', 'GET <key>', or 'DEL <key>'\n"
+                response = "ERROR: Use 'SET <key> <value>', 'GET <key>', 'DEL <key>', or 'LIST'\n"
 
             writer.write(response.encode())
             await writer.drain()
