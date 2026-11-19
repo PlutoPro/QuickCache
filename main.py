@@ -30,8 +30,15 @@ async def handle_client(reader, writer):
                 key = args[0]
                 value = store.get(key, "Key not found")
                 response = f"{key}: {value}\n"
+            elif command == "DEL" and len(args) == 1:
+                key = args[0]
+                if key in store:
+                    del store[key]
+                    response = f"OK: {key} deleted\n"
+                else:
+                    response = f"ERROR: {key} not found\n"
             else:
-                response = "ERROR: Use 'SET <key> <value>' or 'GET <key>'\n"
+                response = "ERROR: Use 'SET <key> <value>', 'GET <key>', or 'DEL <key>'\n"
 
             writer.write(response.encode())
             await writer.drain()

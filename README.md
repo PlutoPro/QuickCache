@@ -91,7 +91,7 @@ with socket.create_connection(("127.0.0.1", 8888)) as sock:
 
 ## Roadmap
 
-* [ ] Add `DELETE` command support
+* [X] Add `DELETE` command support
 * [ ] Implement key expiration (TTL)
 * [ ] Support values containing spaces or JSON payloads
 * [ ] Add persistence / snapshotting to disk
